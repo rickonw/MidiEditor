@@ -51,7 +51,7 @@ else()
     add_definitions(-std=c++11)
 	add_definitions(-D__LINUX_ALSASEQ__)
 	add_definitions(-D__LINUX_ALSA__)
-	set(QT5_DIR "~/Qt/5.7/gcc_64/lib/cmake" CACHE STRING "Additional search paths for QT5")
+	set(QT5_DIR "~/Qt5.9.1/5.9.1/gcc_64/lib/cmake" CACHE STRING "Additional search paths for QT5")
 	find_path(Qt5Widgets_DIR Qt5WidgetsConfig.cmake PATHS "${QT5_DIR}/Qt5Widgets" )
 	find_path(Qt5Network_DIR Qt5NetworkConfig.cmake PATHS "${QT5_DIR}/Qt5Network" )
 	find_path(Qt5Xml_DIR     Qt5XmlConfig.cmake     PATHS "${QT5_DIR}/Qt5Xml"     )
@@ -122,9 +122,9 @@ set(DIR_NAME_RELEASE ${CMAKE_CURRENT_BINARY_DIR}/${NAME_RELEASE})
 set_target_properties( MidiEditor PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${DIR_NAME_RELEASE})
 add_dependencies(MidiEditor ressources)
 add_custom_command(TARGET ressources POST_BUILD   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/ressources.rcc ${DIR_NAME_RELEASE}/ressources.rcc )
-add_custom_command(TARGET MidiEditor POST_BUILD 
-                   COMMAND ${QT5_DIR}/../../bin/windeployqt ${DIR_NAME_RELEASE}
-				   COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${NAME_RELEASE}.zip" --format=zip ${DIR_NAME_RELEASE} )
+#add_custom_command(TARGET MidiEditor POST_BUILD 
+#                   COMMAND ${QT5_DIR}/../../bin/windeployqt ${DIR_NAME_RELEASE}
+#				   COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${NAME_RELEASE}.zip" --format=zip ${DIR_NAME_RELEASE} )
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/run_environment/metronome/metronome-01.wav" DESTINATION ${DIR_NAME_RELEASE}/metronome)
 
 if(MSVC)

@@ -2452,7 +2452,7 @@ QWidget *MainWindow::setupActions(QWidget *parent){
 	viewMB->addMenu(divMenu);
 
 	// Playback
-	QAction *playStopAction = new QAction("PlayStop");
+	QAction *playStopAction = new QAction("PlayStop", this);
 	QList<QKeySequence> playStopActionShortcuts;
 	playStopActionShortcuts << QKeySequence(Qt::Key_Space)
 							<< QKeySequence(Qt::Key_K)
