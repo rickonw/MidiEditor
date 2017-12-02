@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.11)
 
 project(libMidiPlayer)
 
+set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/..)
+
 configure_file(
   ${CMAKE_SOURCE_DIR}/version.cmake.in
   ${CMAKE_BINARY_DIR}/version.cmake
@@ -27,6 +29,8 @@ else()
 	SET(ARCH "x86")
 endif()
 MESSAGE(STATUS "ARCH = ${ARCH}")
+MESSAGE(STATUS "CMAKE_SOURCE_DIR = ${CMAKE_SOURCE_DIR}")
+MESSAGE(STATUS "CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
 
 if(MSVC)
 	option(NO_CONSOLE_MODE "Have a console to debuging" OFF)
@@ -132,7 +136,7 @@ if(MSVC)
 else()
 	target_link_libraries(libMidiPlayer asound sfml-system sfml-audio pthread ${libMidiPlayerDep})
 endif()
-add_custom_command(TARGET libMidiPlayer PRE_BUILD COMMAND cmake -P ${CMAKE_BINARY_DIR}/../version.cmake)
+add_custom_command(TARGET libMidiPlayer PRE_BUILD COMMAND cmake -P ${CMAKE_BINARY_DIR}/version.cmake)
 
 #file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/run_environment/libMidiPlayer.ico" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 #file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/run_environment/metronome/metronome-01.wav" DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/metronome)
