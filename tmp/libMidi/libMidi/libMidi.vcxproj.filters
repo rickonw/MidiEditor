@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\midi">
+      <UniqueIdentifier>{554b135c-8561-4784-9a04-16fd15225990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\MidiEvent">
+      <UniqueIdentifier>{33ede3c8-9859-4298-836c-13cdbf55fa04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\pub">
+      <UniqueIdentifier>{8f7aad40-a9aa-4fd5-84b6-ee597f3b9f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\midi">
+      <UniqueIdentifier>{10f9bdad-a761-48cd-a51e-4e7f570e3981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\MidiEvent">
+      <UniqueIdentifier>{8a27288e-d845-4466-8c69-3370e6363a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\pub">
+      <UniqueIdentifier>{c035175c-2e9a-4cda-8bc5-3b82731bc09b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\protocol">
+      <UniqueIdentifier>{ad96cc8a-8db5-44db-bcd3-ecc7a3d4fb4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\protocol">
+      <UniqueIdentifier>{0cfab446-119c-4ed8-a913-915f16c830fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\pub\dataType.cpp">
+      <Filter>源文件\pub</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\ChannelPressureEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\ControlChangeEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\KeyPressureEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\KeySignatureEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\MidiEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\NoteOnEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\OffEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\OnEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\PitchBendEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\ProgChangeEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\SysExEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\TempoChangeEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\TextEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\TimeSignatureEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MidiEvent\UnknownEvent.cpp">
+      <Filter>源文件\MidiEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\Metronome.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiChannel.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiFile.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiInput.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiOutput.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiPlayer.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\midi\MidiTrack.cpp">
+      <Filter>源文件\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\protocol\Protocol.cpp">
+      <Filter>源文件\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\protocol\ProtocolEntry.cpp">
+      <Filter>源文件\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\protocol\ProtocolItem.cpp">
+      <Filter>源文件\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\protocol\ProtocolStep.cpp">
+      <Filter>源文件\protocol</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\pub\dataType.h">
+      <Filter>头文件\pub</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\ChannelPressureEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\ControlChangeEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\KeyPressureEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\KeySignatureEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\MidiEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\NoteOnEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\OffEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\OnEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\PitchBendEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\ProgChangeEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\SysExEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\TempoChangeEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\TextEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\TimeSignatureEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MidiEvent\UnknownEvent.h">
+      <Filter>头文件\MidiEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\Metronome.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiChannel.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiFile.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiInput.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiOutput.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiPlayer.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\midi\MidiTrack.h">
+      <Filter>头文件\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\protocol\Protocol.h">
+      <Filter>头文件\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\protocol\ProtocolEntry.h">
+      <Filter>头文件\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\protocol\ProtocolItem.h">
+      <Filter>头文件\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\protocol\ProtocolStep.h">
+      <Filter>头文件\protocol</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
