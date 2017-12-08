@@ -20,7 +20,7 @@
 
 #include "../midi/MidiFile.h"
 
-UnknownEvent::UnknownEvent(int channel, int type, ByteArray data, MidiTrack *track) : MidiEvent(channel, track){
+UnknownEvent::UnknownEvent(int channel, int type, QByteArray data, MidiTrack *track) : MidiEvent(channel, track){
 	_data = data;
 	_type = type;
 }
@@ -30,7 +30,7 @@ UnknownEvent::UnknownEvent(UnknownEvent &other) : MidiEvent(other) {
 	_type = other._type;
 }
 
-ByteArray UnknownEvent::data(){
+QByteArray UnknownEvent::data(){
 	return _data;
 }
 
@@ -38,8 +38,8 @@ int UnknownEvent::line(){
 	return UNKNOWN_LINE;
 }
 
-ByteArray UnknownEvent::save(){
-	ByteArray s;
+QByteArray UnknownEvent::save(){
+	QByteArray s;
 	s.append(char(0xFF));
 	s.append(_type);
 	//s.append(MidiFile::writeVariableLengthValue(_data.length()));
@@ -71,7 +71,7 @@ void UnknownEvent::setType(int type){
 	protocol(toCopy, this);
 }
 
-void UnknownEvent::setData(ByteArray d){
+void UnknownEvent::setData(QByteArray d){
 	ProtocolEntry *toCopy = copy();
 	_data = d;
 	protocol(toCopy, this);

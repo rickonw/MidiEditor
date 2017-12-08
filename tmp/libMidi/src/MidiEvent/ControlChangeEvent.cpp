@@ -38,13 +38,13 @@ int ControlChangeEvent::line(){
 	return CONTROLLER_LINE;
 }
 
-string ControlChangeEvent::toMessage(){
+QString ControlChangeEvent::toMessage(){
 	return "cc "+to_string(channel())+" "+to_string(_control)+" "+
 			to_string(_value);
 }
 
-ByteArray ControlChangeEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray ControlChangeEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0xB0 | channel());
 	array.append(_control);
 	array.append(_value);
@@ -65,7 +65,7 @@ void ControlChangeEvent::reloadState(ProtocolEntry *entry){
 	_value = other->_value;
 }
 
-string ControlChangeEvent::typeString(){
+QString ControlChangeEvent::typeString(){
 	return "Control Change Event";
 }
 

@@ -18,24 +18,24 @@
 #include "DataType.h"
 
 
-ByteArray::ByteArray() {
+QByteArray::QByteArray() {
 	return;
 }
 
-void ByteArray::append(int val) {
+void QByteArray::append(int val) {
 	return;
 }
 
-int ByteArray::count() {
+int QByteArray::count() {
 	return 0;
 }
 
-int ByteArray::length() {
+int QByteArray::length() {
 	return 0;
 }
 
 
-void ByteArray::clear() {
+void QByteArray::clear() {
 	return;
 }
 
@@ -46,9 +46,9 @@ Color::Color(int a, int b, int c, int d) {
 
 template <class T>
 
-T Qlist<T>::at(int i)
+T QList<T>::at(int i)
 {
-	Qlist<T>::iterator pnlist = this->begin();
+	QList<T>::iterator pnlist = this->begin();
 	advance(pnlist, i);
 	if (pnlist != this->end()) {
 		return *pnlist;
@@ -59,14 +59,13 @@ T Qlist<T>::at(int i)
 }
 
 template <class T>
-bool Qlist<T>::contains(T val)
+bool QList<T>::contains(T val)
 {
 	return !!find(this->begin(), this->end(), val));
 }
 
 
-
-void Wchar_tToString(std::string& szDst, wchar_t *wchar)
+void Wchar_tToString(string& szDst, wchar_t *wchar)
 {
     wchar_t * wText = wchar;
     DWORD dwNum = WideCharToMultiByte(CP_OEMCP,NULL,wText,-1,NULL,0,NULL,FALSE);

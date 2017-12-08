@@ -47,7 +47,7 @@ void MidiPlayer::play(MidiFile *file){
 }
 
 void MidiPlayer::play(NoteOnEvent *event){
-	singleNotePlayer->play(event);
+	//singleNotePlayer->play(event);
 }
 
 void MidiPlayer::stop(){
@@ -75,7 +75,7 @@ void MidiPlayer::panic(){
 	// set all cannels note off / sounds off
 	for(int i = 0; i<16; i++){
 		// value (third number) should be 0, but doesnt work
-		ByteArray array;
+		QByteArray array;
 		array.append(0xB0 | i);
 		array.append(char(123));
 		array.append(char(127));
@@ -91,7 +91,7 @@ void MidiPlayer::panic(){
 	if(MidiOutput::isAlternativePlayer){
 		foreach(int channel, MidiOutput::playedNotes.keys()){
 			foreach(int note, MidiOutput::playedNotes.value(channel)){
-				ByteArray array;
+				QByteArray array;
 				array.append(0x80 | channel);
 				array.append(char(note));
 				array.append(char(0));

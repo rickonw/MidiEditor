@@ -96,8 +96,8 @@ void TimeSignatureEvent::setDenominator(int d){
 	protocol(toCopy, this);
 }
 
-ByteArray TimeSignatureEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray TimeSignatureEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(char(0xFF));
 	array.append(char(0x58));
 	array.append(char(0x04));
@@ -108,6 +108,6 @@ ByteArray TimeSignatureEvent::save(){
 	return array;
 }
 
-string TimeSignatureEvent::typeString(){
+QString TimeSignatureEvent::typeString(){
 	return "Time Signature Event";
 }

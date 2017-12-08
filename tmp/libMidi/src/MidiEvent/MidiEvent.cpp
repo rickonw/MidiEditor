@@ -51,7 +51,7 @@ MidiEvent::MidiEvent(MidiEvent &other) : ProtocolEntry(other) {
 	midiFile = other.midiFile;
 }
 
-MidiEvent *MidiEvent::loadMidiEvent(ifstream *content, bool *ok,
+MidiEvent *MidiEvent::loadMidiEvent(QDataStream *content, bool *ok,
 		bool *endEvent, MidiTrack *track, quint8 startByte, quint8 secondByte)
 {
 
@@ -213,7 +213,7 @@ MidiEvent *MidiEvent::loadMidiEvent(ifstream *content, bool *ok,
 				case 0x00: {
 
 					// SysEx
-					ByteArray array;
+					QByteArray array;
 					while(tempByte!=0xF7){
 						(*content)>>tempByte;
 						if(tempByte!=0xF7){
@@ -301,7 +301,11 @@ MidiEvent *MidiEvent::loadMidiEvent(ifstream *content, bool *ok,
 									wchar_t temp [2] = { btowc(tempByte) };
 									wcsncat(str, temp, 1);
 								}
-								textEvent->setText(Wchar_tToString(str));
+
+                                QString TmpStr;
+                                Wchar_tToString(TmpStr, str);
+								
+								textEvent->setText(TmpStr);
 								*ok = true;
 								return textEvent;
 
@@ -314,7 +318,7 @@ MidiEvent *MidiEvent::loadMidiEvent(ifstream *content, bool *ok,
 								int length = MidiFile::variableLengthvalue(content);
 
 								// content
-								ByteArray array;
+								QByteArray array;
 								for(int i = 0; i<length; i++){
 									(*content)>>tempByte;
 									array.append((char)tempByte);
@@ -381,12 +385,12 @@ int MidiEvent::channel(){
 	return numChannel;
 }
 
-string MidiEvent::toMessage(){
+QString MidiEvent::toMessage(){
 	return "";
 }
 
-ByteArray MidiEvent::save(){
-	return ByteArray();
+QByteArray MidiEvent::save(){
+	return QByteArray();
 }
 
 void MidiEvent::setMidiTime(int t, bool toProtocol){
@@ -483,7 +487,7 @@ void MidiEvent::reloadState(ProtocolEntry *entry){
 	midiFile = other->midiFile;
 }
 
-string MidiEvent::typeString(){
+QString MidiEvent::typeString(){
 	return "Midi Event";
 }
 
@@ -491,8 +495,8 @@ bool MidiEvent::isOnEvent(){
 	return true;
 }
 
-map<int, string> MidiEvent::knownMetaTypes(){
-	map<int, string> meta;
+map<int, QString> MidiEvent::knownMetaTypes(){
+	map<int, QString> meta;
 	for(int i = 1; i<8; i++){
 		meta.insert(make_pair(i, "Text Event"));
 	}

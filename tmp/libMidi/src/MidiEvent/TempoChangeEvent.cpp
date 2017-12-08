@@ -55,8 +55,8 @@ int TempoChangeEvent::line(){
 	return MidiEvent::TEMPO_CHANGE_EVENT_LINE;
 }
 
-ByteArray TempoChangeEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray TempoChangeEvent::save(){
+	QByteArray array = QByteArray();
 
 	array.append(char(0xFF));
 	array.append(char(0x51));
@@ -76,6 +76,6 @@ void TempoChangeEvent::setBeats(int beats){
 	protocol(toCopy, this);
 }
 
-string TempoChangeEvent::typeString(){
+QString TempoChangeEvent::typeString(){
 	return "Tempo Change Event";
 }

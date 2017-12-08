@@ -20,26 +20,26 @@
 #define SYSEXEVENT_H
 
 #include "MidiEvent.h"
-#include <ByteArray>
+#include <QByteArray>
 
 class SysExEvent : public MidiEvent{
 
 	public:
-		SysExEvent(int channel, ByteArray data, MidiTrack *track);
+		SysExEvent(int channel, QByteArray data, MidiTrack *track);
 		SysExEvent(SysExEvent &other);
 
-		ByteArray data();
+		QByteArray data();
 		int line();
-		ByteArray save();
+		QByteArray save();
 
-		string typeString();
+		QString typeString();
 		ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
-		void setData(ByteArray d);
+		void setData(QByteArray d);
 
 	private:
-		ByteArray _data;
+		QByteArray _data;
 
 };
 

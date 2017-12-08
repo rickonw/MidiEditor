@@ -62,9 +62,9 @@ RtMidi :: ~RtMidi()
   rtapi_ = 0;
 }
 
-std::string RtMidi :: getVersion( void ) throw()
+std::QString RtMidi :: getVersion( void ) throw()
 {
-  return std::string( RTMIDI_VERSION );
+  return std::QString( RTMIDI_VERSION );
 }
 
 void RtMidi :: getCompiledApi( std::vector<RtMidi::Api> &apis ) throw()
@@ -94,7 +94,7 @@ void RtMidi :: getCompiledApi( std::vector<RtMidi::Api> &apis ) throw()
 //  RtMidiIn Definitions
 //*********************************************************************//
 
-void RtMidiIn :: openMidiApi( RtMidi::Api api, const std::string clientName, unsigned int queueSizeLimit )
+void RtMidiIn :: openMidiApi( RtMidi::Api api, const std::QString clientName, unsigned int queueSizeLimit )
 {
   if ( rtapi_ )
 	delete rtapi_;
@@ -122,7 +122,7 @@ void RtMidiIn :: openMidiApi( RtMidi::Api api, const std::string clientName, uns
 #endif
 }
 
-RtMidiIn :: RtMidiIn( RtMidi::Api api, const std::string clientName, unsigned int queueSizeLimit )
+RtMidiIn :: RtMidiIn( RtMidi::Api api, const std::QString clientName, unsigned int queueSizeLimit )
   : RtMidi()
 {
   if ( api != UNSPECIFIED ) {
@@ -150,7 +150,7 @@ RtMidiIn :: RtMidiIn( RtMidi::Api api, const std::string clientName, unsigned in
   // definition __RTMIDI_DUMMY__ is automatically defined if no
   // API-specific definitions are passed to the compiler. But just in
   // case something weird happens, we'll throw an error.
-  std::string errorText = "RtMidiIn: no compiled API support found ... critical error!!";
+  std::QString errorText = "RtMidiIn: no compiled API support found ... critical error!!";
   throw( RtMidiError( errorText, RtMidiError::UNSPECIFIED ) );
 }
 
@@ -163,7 +163,7 @@ RtMidiIn :: ~RtMidiIn() throw()
 //  RtMidiOut Definitions
 //*********************************************************************//
 
-void RtMidiOut :: openMidiApi( RtMidi::Api api, const std::string clientName )
+void RtMidiOut :: openMidiApi( RtMidi::Api api, const std::QString clientName )
 {
   if ( rtapi_ )
 	delete rtapi_;
@@ -191,7 +191,7 @@ void RtMidiOut :: openMidiApi( RtMidi::Api api, const std::string clientName )
 #endif
 }
 
-RtMidiOut :: RtMidiOut( RtMidi::Api api, const std::string clientName )
+RtMidiOut :: RtMidiOut( RtMidi::Api api, const std::QString clientName )
 {
   if ( api != UNSPECIFIED ) {
 	// Attempt to open the specified API.
@@ -218,7 +218,7 @@ RtMidiOut :: RtMidiOut( RtMidi::Api api, const std::string clientName )
   // definition __RTMIDI_DUMMY__ is automatically defined if no
   // API-specific definitions are passed to the compiler. But just in
   // case something weird happens, we'll thrown an error.
-  std::string errorText = "RtMidiOut: no compiled API support found ... critical error!!";
+  std::QString errorText = "RtMidiOut: no compiled API support found ... critical error!!";
   throw( RtMidiError( errorText, RtMidiError::UNSPECIFIED ) );
 }
 
@@ -245,7 +245,7 @@ void MidiApi :: setErrorCallback( RtMidiErrorCallback errorCallback, void *userD
 	errorCallbackUserData_ = userData;
 }
 
-void MidiApi :: error( RtMidiError::Type type, std::string errorString )
+void MidiApi :: error( RtMidiError::Type type, std::QString errorString )
 {
   if ( errorCallback_ ) {
 
@@ -253,7 +253,7 @@ void MidiApi :: error( RtMidiError::Type type, std::string errorString )
 	  return;
 
 	firstErrorOccurred_ = true;
-	const std::string errorMessage = errorString;
+	const std::QString errorMessage = errorString;
 
 	errorCallback_( type, errorMessage, errorCallbackUserData_);
 	firstErrorOccurred_ = false;
@@ -403,7 +403,7 @@ struct CoreMidiData {
 //  Class Definitions: MidiInCore
 //*********************************************************************//
 
-static void midiInputCallback( const MIDIPacketList *Qlist, void *procRef, void */*srcRef*/ )
+static void midiInputCallback( const MIDIPacketList *QList, void *procRef, void */*srcRef*/ )
 {
   MidiInApi::RtMidiInData *data = static_cast<MidiInApi::RtMidiInData *> (procRef);
   CoreMidiData *apiData = static_cast<CoreMidiData *> (data->apiData);
@@ -415,8 +415,8 @@ static void midiInputCallback( const MIDIPacketList *Qlist, void *procRef, void 
   bool& continueSysex = data->continueSysex;
   MidiInApi::MidiMessage& message = data->message;
 
-  const MIDIPacket *packet = &Qlist->packet[0];
-  for ( unsigned int i=0; i<Qlist->numPackets; ++i ) {
+  const MIDIPacket *packet = &QList->packet[0];
+  for ( unsigned int i=0; i<QList->numPackets; ++i ) {
 
 	// My interpretation of the CoreMIDI documentation: all message
 	// types, except sysex, are complete within a packet and there may
@@ -553,7 +553,7 @@ static void midiInputCallback( const MIDIPacketList *Qlist, void *procRef, void 
   }
 }
 
-MidiInCore :: MidiInCore( const std::string clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
+MidiInCore :: MidiInCore( const std::QString clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
   initialize( clientName );
 }
@@ -570,7 +570,7 @@ MidiInCore :: ~MidiInCore( void )
   delete data;
 }
 
-void MidiInCore :: initialize( const std::string& clientName )
+void MidiInCore :: initialize( const std::QString& clientName )
 {
   // Set up our client.
   MIDIClientRef client;
@@ -591,7 +591,7 @@ void MidiInCore :: initialize( const std::string& clientName )
   CFRelease(name);
 }
 
-void MidiInCore :: openPort( unsigned int portNumber, const std::string portName )
+void MidiInCore :: openPort( unsigned int portNumber, const std::QString portName )
 {
   if ( connected_ ) {
 	errorString_ = "MidiInCore::openPort: a valid connection already exists!";
@@ -653,7 +653,7 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string portName
   connected_ = true;
 }
 
-void MidiInCore :: openVirtualPort( const std::string portName )
+void MidiInCore :: openVirtualPort( const std::QString portName )
 {
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
 
@@ -819,13 +819,13 @@ static CFStringRef ConnectedEndpointName( MIDIEndpointRef endpoint )
   return EndpointName( endpoint, false );
 }
 
-std::string MidiInCore :: getPortName( unsigned int portNumber )
+std::QString MidiInCore :: getPortName( unsigned int portNumber )
 {
   CFStringRef nameRef;
   MIDIEndpointRef portRef;
   char name[128];
 
-  std::string stringName;
+  std::QString stringName;
   CFRunLoopRunInMode( kCFRunLoopDefaultMode, 0, false );
   if ( portNumber >= MIDIGetNumberOfSources() ) {
 	std::ostringstream ost;
@@ -848,7 +848,7 @@ std::string MidiInCore :: getPortName( unsigned int portNumber )
 //  Class Definitions: MidiOutCore
 //*********************************************************************//
 
-MidiOutCore :: MidiOutCore( const std::string clientName ) : MidiOutApi()
+MidiOutCore :: MidiOutCore( const std::QString clientName ) : MidiOutApi()
 {
   initialize( clientName );
 }
@@ -865,7 +865,7 @@ MidiOutCore :: ~MidiOutCore( void )
   delete data;
 }
 
-void MidiOutCore :: initialize( const std::string& clientName )
+void MidiOutCore :: initialize( const std::QString& clientName )
 {
   // Set up our client.
   MIDIClientRef client;
@@ -891,13 +891,13 @@ unsigned int MidiOutCore :: getPortCount()
   return MIDIGetNumberOfDestinations();
 }
 
-std::string MidiOutCore :: getPortName( unsigned int portNumber )
+std::QString MidiOutCore :: getPortName( unsigned int portNumber )
 {
   CFStringRef nameRef;
   MIDIEndpointRef portRef;
   char name[128];
 
-  std::string stringName;
+  std::QString stringName;
   CFRunLoopRunInMode( kCFRunLoopDefaultMode, 0, false );
   if ( portNumber >= MIDIGetNumberOfDestinations() ) {
 	std::ostringstream ost;
@@ -915,7 +915,7 @@ std::string MidiOutCore :: getPortName( unsigned int portNumber )
   return stringName = name;
 }
 
-void MidiOutCore :: openPort( unsigned int portNumber, const std::string portName )
+void MidiOutCore :: openPort( unsigned int portNumber, const std::QString portName )
 {
   if ( connected_ ) {
 	errorString_ = "MidiOutCore::openPort: a valid connection already exists!";
@@ -982,7 +982,7 @@ void MidiOutCore :: closePort( void )
   connected_ = false;
 }
 
-void MidiOutCore :: openVirtualPort( std::string portName )
+void MidiOutCore :: openVirtualPort( std::QString portName )
 {
   CoreMidiData *data = static_cast<CoreMidiData *> (apiData_);
 
@@ -1042,7 +1042,7 @@ void MidiOutCore :: sendMessage( std::vector<unsigned char> *message )
   }
 
   if ( !packet ) {
-	errorString_ = "MidiOutCore::sendMessage: could not allocate packet Qlist";      
+	errorString_ = "MidiOutCore::sendMessage: could not allocate packet QList";      
 	error( RtMidiError::DRIVER_ERROR, errorString_ );
 	return;
   }
@@ -1310,7 +1310,7 @@ static void *alsaMidiHandler( void *ptr )
   return 0;
 }
 
-MidiInAlsa :: MidiInAlsa( const std::string clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
+MidiInAlsa :: MidiInAlsa( const std::QString clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
   initialize( clientName );
 }
@@ -1341,7 +1341,7 @@ MidiInAlsa :: ~MidiInAlsa()
   delete data;
 }
 
-void MidiInAlsa :: initialize( const std::string& clientName )
+void MidiInAlsa :: initialize( const std::QString& clientName )
 {
   // Set up the ALSA sequencer client.
   snd_seq_t *seq;
@@ -1427,14 +1427,14 @@ unsigned int MidiInAlsa :: getPortCount()
   return portInfo( data->seq, pinfo, SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ, -1 );
 }
 
-std::string MidiInAlsa :: getPortName( unsigned int portNumber )
+std::QString MidiInAlsa :: getPortName( unsigned int portNumber )
 {
   snd_seq_client_info_t *cinfo;
   snd_seq_port_info_t *pinfo;
   snd_seq_client_info_alloca( &cinfo );
   snd_seq_port_info_alloca( &pinfo );
 
-  std::string stringName;
+  std::QString stringName;
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
   if ( portInfo( data->seq, pinfo, SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ, (int) portNumber ) ) {
 	int cnum = snd_seq_port_info_get_client( pinfo );
@@ -1455,7 +1455,7 @@ std::string MidiInAlsa :: getPortName( unsigned int portNumber )
   return stringName;
 }
 
-void MidiInAlsa :: openPort( unsigned int portNumber, const std::string portName )
+void MidiInAlsa :: openPort( unsigned int portNumber, const std::QString portName )
 {
   if ( connected_ ) {
 	errorString_ = "MidiInAlsa::openPort: a valid connection already exists!";
@@ -1563,7 +1563,7 @@ void MidiInAlsa :: openPort( unsigned int portNumber, const std::string portName
   connected_ = true;
 }
 
-void MidiInAlsa :: openVirtualPort( std::string portName )
+void MidiInAlsa :: openVirtualPort( std::QString portName )
 {
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
   if ( data->vport < 0 ) {
@@ -1658,7 +1658,7 @@ void MidiInAlsa :: closePort( void )
 //  Class Definitions: MidiOutAlsa
 //*********************************************************************//
 
-MidiOutAlsa :: MidiOutAlsa( const std::string clientName ) : MidiOutApi()
+MidiOutAlsa :: MidiOutAlsa( const std::QString clientName ) : MidiOutApi()
 {
   initialize( clientName );
 }
@@ -1677,7 +1677,7 @@ MidiOutAlsa :: ~MidiOutAlsa()
   delete data;
 }
 
-void MidiOutAlsa :: initialize( const std::string& clientName )
+void MidiOutAlsa :: initialize( const std::QString& clientName )
 {
   // Set up the ALSA sequencer client.
   snd_seq_t *seq;
@@ -1726,14 +1726,14 @@ unsigned int MidiOutAlsa :: getPortCount()
   return portInfo( data->seq, pinfo, SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, -1 );
 }
 
-std::string MidiOutAlsa :: getPortName( unsigned int portNumber )
+std::QString MidiOutAlsa :: getPortName( unsigned int portNumber )
 {
   snd_seq_client_info_t *cinfo;
   snd_seq_port_info_t *pinfo;
   snd_seq_client_info_alloca( &cinfo );
   snd_seq_port_info_alloca( &pinfo );
 
-  std::string stringName;
+  std::QString stringName;
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
   if ( portInfo( data->seq, pinfo, SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE, (int) portNumber ) ) {
 	int cnum = snd_seq_port_info_get_client(pinfo);
@@ -1754,7 +1754,7 @@ std::string MidiOutAlsa :: getPortName( unsigned int portNumber )
   return stringName;
 }
 
-void MidiOutAlsa :: openPort( unsigned int portNumber, const std::string portName )
+void MidiOutAlsa :: openPort( unsigned int portNumber, const std::QString portName )
 {
   if ( connected_ ) {
 	errorString_ = "MidiOutAlsa::openPort: a valid connection already exists!";
@@ -1829,7 +1829,7 @@ void MidiOutAlsa :: closePort( void )
   }
 }
 
-void MidiOutAlsa :: openVirtualPort( std::string portName )
+void MidiOutAlsa :: openVirtualPort( std::QString portName )
 {
   AlsaMidiData *data = static_cast<AlsaMidiData *> (apiData_);
   if ( data->vport < 0 ) {
@@ -2029,7 +2029,7 @@ static void CALLBACK midiInputCallback( HMIDIIN /*hmin*/,
   apiData->message.bytes.clear();
 }
 
-MidiInWinMM :: MidiInWinMM( const std::string clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
+MidiInWinMM :: MidiInWinMM( const std::QString clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
   initialize( clientName );
 }
@@ -2046,7 +2046,7 @@ MidiInWinMM :: ~MidiInWinMM()
   delete data;
 }
 
-void MidiInWinMM :: initialize( const std::string& /*clientName*/ )
+void MidiInWinMM :: initialize( const std::QString& /*clientName*/ )
 {
   // We'll issue a warning here if no devices are available but not
   // throw an error since the user can plugin something later.
@@ -2068,7 +2068,7 @@ void MidiInWinMM :: initialize( const std::string& /*clientName*/ )
   }
 }
 
-void MidiInWinMM :: openPort( unsigned int portNumber, const std::string /*portName*/ )
+void MidiInWinMM :: openPort( unsigned int portNumber, const std::QString /*portName*/ )
 {
   if ( connected_ ) {
 	errorString_ = "MidiInWinMM::openPort: a valid connection already exists!";
@@ -2140,7 +2140,7 @@ void MidiInWinMM :: openPort( unsigned int portNumber, const std::string /*portN
   connected_ = true;
 }
 
-void MidiInWinMM :: openVirtualPort( std::string /*portName*/ )
+void MidiInWinMM :: openVirtualPort( std::QString /*portName*/ )
 {
   // This function cannot be implemented for the Windows MM MIDI API.
   errorString_ = "MidiInWinMM::openVirtualPort: cannot be implemented in Windows MM MIDI API!";
@@ -2178,9 +2178,9 @@ unsigned int MidiInWinMM :: getPortCount()
   return midiInGetNumDevs();
 }
 
-std::string MidiInWinMM :: getPortName( unsigned int portNumber )
+std::QString MidiInWinMM :: getPortName( unsigned int portNumber )
 {
-  std::string stringName;
+  std::QString stringName;
   unsigned int nDevices = midiInGetNumDevs();
   if ( portNumber >= nDevices ) {
 	std::ostringstream ost;
@@ -2198,7 +2198,7 @@ std::string MidiInWinMM :: getPortName( unsigned int portNumber )
   stringName.assign( length, 0 );
   length = WideCharToMultiByte(CP_UTF8, 0, deviceCaps.szPname, static_cast<int>(wcslen(deviceCaps.szPname)), &stringName[0], length, NULL, NULL);
 #else
-  stringName = std::string( deviceCaps.szPname );
+  stringName = std::QString( deviceCaps.szPname );
 #endif
 
   // Next lines added to add the portNumber to the name so that 
@@ -2217,7 +2217,7 @@ std::string MidiInWinMM :: getPortName( unsigned int portNumber )
 //  Class Definitions: MidiOutWinMM
 //*********************************************************************//
 
-MidiOutWinMM :: MidiOutWinMM( const std::string clientName ) : MidiOutApi()
+MidiOutWinMM :: MidiOutWinMM( const std::QString clientName ) : MidiOutApi()
 {
   initialize( clientName );
 }
@@ -2232,7 +2232,7 @@ MidiOutWinMM :: ~MidiOutWinMM()
   delete data;
 }
 
-void MidiOutWinMM :: initialize( const std::string& /*clientName*/ )
+void MidiOutWinMM :: initialize( const std::QString& /*clientName*/ )
 {
   // We'll issue a warning here if no devices are available but not
   // throw an error since the user can plug something in later.
@@ -2252,9 +2252,9 @@ unsigned int MidiOutWinMM :: getPortCount()
   return midiOutGetNumDevs();
 }
 
-std::string MidiOutWinMM :: getPortName( unsigned int portNumber )
+std::QString MidiOutWinMM :: getPortName( unsigned int portNumber )
 {
-  std::string stringName;
+  std::QString stringName;
   unsigned int nDevices = midiOutGetNumDevs();
   if ( portNumber >= nDevices ) {
 	std::ostringstream ost;
@@ -2272,7 +2272,7 @@ std::string MidiOutWinMM :: getPortName( unsigned int portNumber )
   stringName.assign( length, 0 );
   length = WideCharToMultiByte(CP_UTF8, 0, deviceCaps.szPname, static_cast<int>(wcslen(deviceCaps.szPname)), &stringName[0], length, NULL, NULL);
 #else
-  stringName = std::string( deviceCaps.szPname );
+  stringName = std::QString( deviceCaps.szPname );
 #endif
 
   // Next lines added to add the portNumber to the name so that 
@@ -2286,7 +2286,7 @@ std::string MidiOutWinMM :: getPortName( unsigned int portNumber )
   return stringName;
 }
 
-void MidiOutWinMM :: openPort( unsigned int portNumber, const std::string /*portName*/ )
+void MidiOutWinMM :: openPort( unsigned int portNumber, const std::QString /*portName*/ )
 {
   if ( connected_ ) {
 	errorString_ = "MidiOutWinMM::openPort: a valid connection already exists!";
@@ -2334,7 +2334,7 @@ void MidiOutWinMM :: closePort( void )
   }
 }
 
-void MidiOutWinMM :: openVirtualPort( std::string /*portName*/ )
+void MidiOutWinMM :: openVirtualPort( std::QString /*portName*/ )
 {
   // This function cannot be implemented for the Windows MM MIDI API.
   errorString_ = "MidiOutWinMM::openVirtualPort: cannot be implemented in Windows MM MIDI API!";
@@ -2506,12 +2506,12 @@ static int jackProcessIn( jack_nframes_t nframes, void *arg )
   return 0;
 }
 
-MidiInJack :: MidiInJack( const std::string clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
+MidiInJack :: MidiInJack( const std::QString clientName, unsigned int queueSizeLimit ) : MidiInApi( queueSizeLimit )
 {
   initialize( clientName );
 }
 
-void MidiInJack :: initialize( const std::string& clientName )
+void MidiInJack :: initialize( const std::QString& clientName )
 {
   JackMidiData *data = new JackMidiData;
   apiData_ = (void *) data;
@@ -2551,7 +2551,7 @@ MidiInJack :: ~MidiInJack()
   delete data;
 }
 
-void MidiInJack :: openPort( unsigned int portNumber, const std::string portName )
+void MidiInJack :: openPort( unsigned int portNumber, const std::QString portName )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
 
@@ -2569,11 +2569,11 @@ void MidiInJack :: openPort( unsigned int portNumber, const std::string portName
   }
 
   // Connecting to the output
-  std::string name = getPortName( portNumber );
+  std::QString name = getPortName( portNumber );
   jack_connect( data->client, name.c_str(), jack_port_name( data->port ) );
 }
 
-void MidiInJack :: openVirtualPort( const std::string portName )
+void MidiInJack :: openVirtualPort( const std::QString portName )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
 
@@ -2608,10 +2608,10 @@ unsigned int MidiInJack :: getPortCount()
   return count;
 }
 
-std::string MidiInJack :: getPortName( unsigned int portNumber )
+std::QString MidiInJack :: getPortName( unsigned int portNumber )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
-  std::string retStr("");
+  std::QString retStr("");
 
   connect();
 
@@ -2675,12 +2675,12 @@ static int jackProcessOut( jack_nframes_t nframes, void *arg )
   return 0;
 }
 
-MidiOutJack :: MidiOutJack( const std::string clientName ) : MidiOutApi()
+MidiOutJack :: MidiOutJack( const std::QString clientName ) : MidiOutApi()
 {
   initialize( clientName );
 }
 
-void MidiOutJack :: initialize( const std::string& clientName )
+void MidiOutJack :: initialize( const std::QString& clientName )
 {
   JackMidiData *data = new JackMidiData;
   apiData_ = (void *) data;
@@ -2728,7 +2728,7 @@ MidiOutJack :: ~MidiOutJack()
   delete data;
 }
 
-void MidiOutJack :: openPort( unsigned int portNumber, const std::string portName )
+void MidiOutJack :: openPort( unsigned int portNumber, const std::QString portName )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
 
@@ -2746,11 +2746,11 @@ void MidiOutJack :: openPort( unsigned int portNumber, const std::string portNam
   }
 
   // Connecting to the output
-  std::string name = getPortName( portNumber );
+  std::QString name = getPortName( portNumber );
   jack_connect( data->client, jack_port_name( data->port ), name.c_str() );
 }
 
-void MidiOutJack :: openVirtualPort( const std::string portName )
+void MidiOutJack :: openVirtualPort( const std::QString portName )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
 
@@ -2786,10 +2786,10 @@ unsigned int MidiOutJack :: getPortCount()
   return count;
 }
 
-std::string MidiOutJack :: getPortName( unsigned int portNumber )
+std::QString MidiOutJack :: getPortName( unsigned int portNumber )
 {
   JackMidiData *data = static_cast<JackMidiData *> (apiData_);
-  std::string retStr("");
+  std::QString retStr("");
 
   connect();
 

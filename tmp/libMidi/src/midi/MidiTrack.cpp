@@ -49,14 +49,14 @@ MidiFile *MidiTrack::file(){
 	return _file;
 }
 
-string MidiTrack::name(){
+QString MidiTrack::name(){
 	if(_nameEvent){
 		return _nameEvent->text();
 	}
 	return "Untitled track";
 }
 
-void MidiTrack::setName(string name){
+void MidiTrack::setName(QString name){
 
 	if(!_nameEvent){
 		_nameEvent = new TextEvent(16, this);

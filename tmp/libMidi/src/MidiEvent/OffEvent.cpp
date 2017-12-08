@@ -20,11 +20,13 @@
 #include "OnEvent.h"
 
 multimap<int, OnEvent*> *OffEvent::onEvents = new multimap<int, OnEvent*>();
+QList<OnEvent*> *OffEvent::onEventsList = new QList<OnEvent*>();
 
 OffEvent::OffEvent(int ch, int l, MidiTrack *track) : MidiEvent(ch, track) {
 	_line = l;
 	_onEvent = 0;
-	Qlist<OnEvent*> eventsToClose = onEvents->values(line());
+	updtEventsList(line());
+	QList<OnEvent*> eventsToClose = *onEventsList;
 	for(int i = 0; i<eventsToClose.max_size(); i++){
 		if(eventsToClose.at(i)->channel() == channel()){
 			setOnEvent(eventsToClose.at(i));
@@ -36,10 +38,10 @@ OffEvent::OffEvent(int ch, int l, MidiTrack *track) : MidiEvent(ch, track) {
 	}
 }
 
-Qlist<OnEvent*> OffEvent::corruptedOnEvents(){
-    multimap<int, OnEvent*>::iterator iter;
-    iter = onEvents->begin();
-	return iter->second;
+QList<OnEvent*> OffEvent::corruptedOnEvents(){
+    updtEventsList();
+
+	return *onEventsList;
 }
 
 void OffEvent::removeOnEvent(OnEvent *event){
@@ -79,7 +81,7 @@ void OffEvent::setMidiTime(int t, bool toProtocol){
 }
 
 void OffEvent::enterOnEvent(OnEvent *event){
-	onEvents->insertMulti(event->line(), event);
+	onEvents->insert(make_pair(event->line(), event));
 }
 
 void OffEvent::clearOnEvents(){
@@ -105,19 +107,19 @@ void OffEvent::reloadState(ProtocolEntry *entry){
 	_onEvent = other->_onEvent;
 }
 
-ByteArray OffEvent::save(){
+QByteArray OffEvent::save(){
 	if(onEvent()){
 		return onEvent()->saveOffEvent();
 	} else {
-		return ByteArray();
+		return QByteArray();
 	}
 }
 
-string OffEvent::toMessage(){
+QString OffEvent::toMessage(){
 	if(onEvent()){
 		return onEvent()->offEventMessage();
 	} else {
-		return string();
+		return QString();
 	}
 }
 
@@ -131,3 +133,25 @@ int OffEvent::line(){
 bool OffEvent::isOnEvent(){
 	return false;
 }
+
+void OffEvent::updtEventsList(){
+	onEventsList->clear();
+
+    for (multimap<int, OnEvent*>::iterator iter = (*onEvents).begin(); iter != (*onEvents).end(); iter++)
+    {
+        onEventsList->push_back(iter->second);
+    }
+}
+
+void OffEvent::updtEventsList(int key){
+	onEventsList->clear();
+
+    for (multimap<int, OnEvent*>::iterator iter = (*onEvents).begin(); iter != (*onEvents).end(); iter++)
+    {
+        if(key == iter->first) {
+            onEventsList->push_back(iter->second);
+        }
+    }
+}
+
+

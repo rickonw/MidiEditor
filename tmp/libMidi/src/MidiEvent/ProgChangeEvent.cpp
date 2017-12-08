@@ -32,12 +32,12 @@ int ProgChangeEvent::line(){
 	return PROG_CHANGE_LINE;
 }
 
-string ProgChangeEvent::toMessage(){
+QString ProgChangeEvent::toMessage(){
 	return "prog "+to_string(channel())+" "+to_string(_program);
 }
 
-ByteArray ProgChangeEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray ProgChangeEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0xC0 | channel());
 	array.append(_program);
 	return array;
@@ -56,7 +56,7 @@ void ProgChangeEvent::reloadState(ProtocolEntry *entry){
 	_program = other->_program;
 }
 
-string ProgChangeEvent::typeString(){
+QString ProgChangeEvent::typeString(){
 	return "Program Change Event";
 }
 

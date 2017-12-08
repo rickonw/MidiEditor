@@ -18,9 +18,9 @@
 
 #include "ProtocolStep.h"
 #include "ProtocolItem.h"
-#include "../pub/dataType.h"
+#include "../pub/DataType.h"
 
-ProtocolStep::ProtocolStep(string description){
+ProtocolStep::ProtocolStep(QString description){
 	_stepDescription = description;
 	_itemStack = new stack<ProtocolItem*>;
 	//_image = img;
@@ -51,7 +51,7 @@ int ProtocolStep::items() {
 	return _itemStack->size();
 }
 
-string ProtocolStep::description(){
+QString ProtocolStep::description(){
 	return _stepDescription;
 }
 

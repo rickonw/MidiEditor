@@ -31,7 +31,7 @@
 #include "MidiOutput.h"
 
 RtMidiIn *MidiInput::_midiIn = 0;
-string MidiInput::_inPort = "";
+QString MidiInput::_inPort = "";
 multimap<int, std::vector<unsigned char> > *MidiInput::_messages =
 		new multimap<int, std::vector<unsigned char> >;
 int MidiInput::_currentTime = 0;
@@ -42,7 +42,7 @@ void MidiInput::init(){
 
 	// RtMidiIn constructor
 	try {
-		_midiIn = new RtMidiIn(RtMidi::UNSPECIFIED, string("MidiEditor input").toStdString());
+		_midiIn = new RtMidiIn(RtMidi::UNSPECIFIED, QString("MidiEditor input"));
 		//_midiIn->setQueueSizeLimit(65535);
 		_midiIn->ignoreTypes(false, true, true);
 		_midiIn->setCallback(&receiveMessage);
@@ -60,7 +60,7 @@ void MidiInput::receiveMessage(double deltatime, std::vector<unsigned char>
 	}
 
 	if(_thru){
-		ByteArray a;
+		QByteArray a;
 		for(int i = 0; i<message->size(); i++){
 			// check channel
 			if(i == 0){
@@ -101,9 +101,9 @@ void MidiInput::receiveMessage(double deltatime, std::vector<unsigned char>
 	}
 }
 
-string MidiInput::inputPorts(){
+QString MidiInput::inputPorts(){
 
-	string ports;
+	QString ports;
 
 	// Check outputs.
 	unsigned int nPorts = _midiIn->getPortCount();
@@ -111,7 +111,7 @@ string MidiInput::inputPorts(){
 	for(unsigned int i = 0; i < nPorts; i++){
 
 		try {
-			ports.append(string::fromStdString(_midiIn->getPortName(i)));
+			ports.append(_midiIn->getPortName(i));
 		}
 		catch (RtMidiError &) {}
 	}
@@ -119,7 +119,7 @@ string MidiInput::inputPorts(){
 	return ports;
 }
 
-bool MidiInput::setInputPort(string name){
+bool MidiInput::setInputPort(QString name){
 
 	// try to find the port
 	unsigned int nPorts = _midiIn->getPortCount();
@@ -130,7 +130,7 @@ bool MidiInput::setInputPort(string name){
 
 			// if the current port has the given name, select it and close
 			// current port
-			if(_midiIn->getPortName(i) == name.toStdString()){
+			if(_midiIn->getPortName(i) == name){
 
 				_midiIn->closePort();
 				_midiIn->openPort(i);
@@ -146,7 +146,7 @@ bool MidiInput::setInputPort(string name){
 	return false;
 }
 
-string MidiInput::inputPort(){
+QString MidiInput::inputPort(){
 	return _inPort;
 }
 
@@ -161,7 +161,7 @@ void MidiInput::startInput(){
 multimap<int, MidiEvent*> MidiInput::endInput(MidiTrack *track){
 
 	multimap<int, MidiEvent*> eventList;
-	ByteArray array;
+	QByteArray array;
 
 	multimap<int, std::vector<unsigned char> >::iterator it =
 			_messages->begin();
@@ -181,7 +181,7 @@ multimap<int, MidiEvent*> MidiInput::endInput(MidiTrack *track){
 			array.append(it.value().at(i));
 		}
 
-		ifstream tempStream(array);
+		QDataStream tempStream(array);
 
 		MidiEvent *event = MidiEvent::loadMidiEvent(&tempStream,&ok,&endEvent, track);
 		OffEvent *off = dynamic_cast<OffEvent*>(event);
@@ -248,7 +248,7 @@ multimap<int, MidiEvent*> MidiInput::endInput(MidiTrack *track){
 
 	// perform consistency check
 	multimap<int, MidiEvent*> toRemove;
-	Qlist<int> allTicks = toUnique(eventList.keys());
+	QList<int> allTicks = toUnique(eventList.keys());
 
 	foreach(int tick, allTicks){
 
@@ -373,8 +373,8 @@ bool MidiInput::recording(){
 	return _recording;
 }
 
-Qlist<int> MidiInput::toUnique(Qlist<int> in){
-	Qlist<int> out;
+QList<int> MidiInput::toUnique(QList<int> in){
+	QList<int> out;
 	foreach(int i, in){
 		if((out.size() == 0) || (out.back() != i)){
 			out.push_back(i);

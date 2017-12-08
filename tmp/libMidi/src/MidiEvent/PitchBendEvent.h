@@ -31,13 +31,13 @@ class PitchBendEvent : public MidiEvent {
 		int value();
 		void setValue(int v);
 
-		string toMessage();
-		ByteArray save();
+		QString toMessage();
+		QByteArray save();
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
-		string typeString();
+		QString typeString();
 
 		virtual bool isOnEvent();
 	private:

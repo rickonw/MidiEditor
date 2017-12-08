@@ -49,7 +49,9 @@
 #include <fstream>
 #include <queue>
 #include <stack>
-//#include <Math>
+#include <math.h>
+
+#include <Windows.h>
 
 using namespace std;
 
@@ -59,8 +61,14 @@ typedef unsigned int quint32;
 typedef unsigned short quint16;
 
 typedef string StringList;
+typedef string QString;
+typedef ifstream QDataStream;
 
-#define printLog(x)
+//typedef unsigned char       BYTE;
+//typedef unsigned short      WORD;
+typedef unsigned long       DWORD;
+
+//#define printLog(x)
 
 #define foreach(element, iter, container) \
     for (iter = (container).begin(); iter != (container).end(); iter++)\
@@ -77,10 +85,10 @@ class Color{
     private:
 };
 
-class ByteArray{
+class QByteArray{
 
 	public:
-	    ByteArray();
+	    QByteArray();
         void append(int val);
         int  count();
 		void clear();
@@ -92,17 +100,16 @@ class ByteArray{
 };
 
 
+
 template <class T>
-
-class Qlist : public list<T> {
-
+class QList : public std::list<T> {
     public:
-		T at(int i);
-		bool contains(T val);
+        T  at(int i);
+        bool contains(T val);
 };
 
 
-void Wchar_tToString(std::string& szDst, wchar_t *wchar);
+void Wchar_tToString(string& szDst, wchar_t *wchar);
 
 
 #endif

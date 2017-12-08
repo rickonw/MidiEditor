@@ -29,20 +29,20 @@ class MidiOutput {
 
 	public:
 		static void init();
-		static void sendCommand(ByteArray array);
+		static void sendCommand(QByteArray array);
 		static void sendCommand(MidiEvent *e);
-		static string outputPorts();
-		static bool setOutputPort(string name);
-		static string outputPort();
-		static void sendEnqueuedCommand(ByteArray array);
+		static QString outputPorts();
+		static bool setOutputPort(QString name);
+		static QString outputPort();
+		static void sendEnqueuedCommand(QByteArray array);
 		static bool isAlternativePlayer;
-		static map<int, Qlist<int> > playedNotes;
+		static map<int, QList<int> > playedNotes;
 		static void setStandardChannel(int channel);
 		static int standardChannel();
 		static void sendProgram(int channel, int prog);
 
 	private:
-		static string _outPort;
+		static QString _outPort;
 		static RtMidiOut *_midiOut;
 		//static SenderThread *_sender;
 		static int _stdChannel;

@@ -19,7 +19,6 @@
 #include "OnEvent.h"
 
 #include "OffEvent.h"
-#include <QBoxLayout>
 #include "../midi/MidiFile.h"
 #include "../midi/MidiTrack.h"
 
@@ -55,11 +54,11 @@ void OnEvent::reloadState(ProtocolEntry *entry){
 	_offEvent = other->_offEvent;
 }
 
-ByteArray OnEvent::saveOffEvent(){
-	return ByteArray();
+QByteArray OnEvent::saveOffEvent(){
+	return QByteArray();
 }
 
-string OnEvent::offEventMessage(){
+QString OnEvent::offEventMessage(){
 	return "";
 }
 

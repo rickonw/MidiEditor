@@ -36,12 +36,12 @@ int KeyPressureEvent::line(){
 	return KEY_PRESSURE_LINE;
 }
 
-string KeyPressureEvent::toMessage(){
+QString KeyPressureEvent::toMessage(){
 	return "";
 }
 
-ByteArray KeyPressureEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray KeyPressureEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0xA0 | channel());
 	array.append(_note);
 	array.append(_value);
@@ -74,7 +74,7 @@ void KeyPressureEvent::setNote(int n){
 	protocol(toCopy, this);
 }
 
-string KeyPressureEvent::typeString(){
+QString KeyPressureEvent::typeString(){
 	return "Key Pressure Event";
 }
 

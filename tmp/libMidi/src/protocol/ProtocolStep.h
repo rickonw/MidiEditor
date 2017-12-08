@@ -19,7 +19,7 @@
 #ifndef PROTOCOLSTEP_H_
 #define PROTOCOLSTEP_H_
 
-#include <string>
+#include <QString>
 
 class ProtocolItem;
 
@@ -44,7 +44,7 @@ class ProtocolStep {
 		/**
 		 * \brief creates a new ProtocolStep with the given description.
 		 */
-		ProtocolStep(string description);
+		ProtocolStep(QString description);
 
 		/**
 		 * \brief deletes the ProtocolStep.
@@ -67,7 +67,7 @@ class ProtocolStep {
 		/**
 		 * \brief returns the steps Description.
 		 */
-		string description();
+		QString description();
 
 		/**
 		 * \brief returns the steps Image.
@@ -88,7 +88,7 @@ class ProtocolStep {
 		/**
 		 * \brief Holds the Steps Description.
 		 */
-		string _stepDescription;
+		QString _stepDescription;
 
 		/**
 		 * \brief Holds the Steps Image.

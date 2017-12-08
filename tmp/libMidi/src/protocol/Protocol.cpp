@@ -28,8 +28,8 @@ Protocol::Protocol(MidiFile *f){
 
 	_file = f;
 
-	_undoSteps = new Qlist<ProtocolStep*>;
-	_redoSteps = new Qlist<ProtocolStep*>;
+	_undoSteps = new QList<ProtocolStep*>;
+	_redoSteps = new QList<ProtocolStep*>;
 }
 
 void Protocol::enterUndoStep(ProtocolItem *item){
@@ -42,7 +42,7 @@ void Protocol::enterUndoStep(ProtocolItem *item){
 }
 
 void Protocol::undo(bool emitChanged){
-    Qlist<ProtocolStep*>::iterator iter;
+    QList<ProtocolStep*>::iterator iter;
 
 	if(!_undoSteps->empty()){
 
@@ -68,7 +68,7 @@ void Protocol::undo(bool emitChanged){
 }
 
 void Protocol::redo(bool emitChanged){
-    Qlist<ProtocolStep*>::iterator iter;
+    QList<ProtocolStep*>::iterator iter;
 
 	if(!_redoSteps->empty()){
 
@@ -93,7 +93,7 @@ void Protocol::redo(bool emitChanged){
 	}	
 }
 		
-void Protocol::startNewAction(string description) {
+void Protocol::startNewAction(QString description) {
 
 	// When there is a new Action started the redoStack has to be cleared
 	_redoSteps->clear();
@@ -159,6 +159,6 @@ void Protocol::goTo(ProtocolStep *toGo){
 	//emit actionFinished();
 }
 
-void Protocol::addEmptyAction(string name){
+void Protocol::addEmptyAction(QString name){
 	_undoSteps->push_back(new ProtocolStep(name));
 }

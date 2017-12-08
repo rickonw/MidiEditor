@@ -34,12 +34,12 @@ int ChannelPressureEvent::line(){
 	return CHANNEL_PRESSURE_LINE;
 }
 
-string ChannelPressureEvent::toMessage(){
+QString ChannelPressureEvent::toMessage(){
 	return "";
 }
 
-ByteArray ChannelPressureEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray ChannelPressureEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0xD0 | channel());
 	array.append(_value);
 	return array;
@@ -58,7 +58,7 @@ void ChannelPressureEvent::reloadState(ProtocolEntry *entry){
 	_value = other->_value;
 }
 
-string ChannelPressureEvent::typeString(){
+QString ChannelPressureEvent::typeString(){
 	return "Channel Pressure Event";
 }
 

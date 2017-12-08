@@ -31,8 +31,8 @@ class OnEvent : public MidiEvent{
 
 		void setOffEvent(OffEvent *event);
 		OffEvent *offEvent();
-		virtual ByteArray saveOffEvent();
-		virtual string offEventMessage();
+		virtual QByteArray saveOffEvent();
+		virtual QString offEventMessage();
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 

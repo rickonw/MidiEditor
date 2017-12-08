@@ -37,12 +37,12 @@ class NoteOnEvent : public OnEvent{
 		void setVelocity(int v);
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
-		string toMessage();
-		string offEventMessage();
-		ByteArray save();
-		ByteArray saveOffEvent();
+		QString toMessage();
+		QString offEventMessage();
+		QByteArray save();
+		QByteArray saveOffEvent();
 
-		string typeString();
+		QString typeString();
 
 	protected:
 		int _note, _velocity;

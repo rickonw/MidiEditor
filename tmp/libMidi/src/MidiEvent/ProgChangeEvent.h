@@ -29,13 +29,13 @@ class ProgChangeEvent : public MidiEvent {
 
 		virtual int line();
 
-		string toMessage();
-		ByteArray save();
+		QString toMessage();
+		QByteArray save();
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
-		string typeString();
+		QString typeString();
 
 		int program();
 		void setProgram(int prog);

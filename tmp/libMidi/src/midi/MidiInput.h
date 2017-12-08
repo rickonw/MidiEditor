@@ -32,12 +32,12 @@ class MidiInput {
 
 		static void init();
 
-		static void sendCommand(ByteArray array);
+		static void sendCommand(QByteArray array);
 		static void sendCommand(MidiEvent *e);
 
-		static string inputPorts();
-		static bool setInputPort(string name);
-		static string inputPort();
+		static QString inputPorts();
+		static bool setInputPort(QString name);
+		static QString inputPort();
 
 		static void startInput();
 		static multimap<int, MidiEvent*> endInput(MidiTrack *track);
@@ -52,12 +52,12 @@ class MidiInput {
 		static bool thru();
 
 	private:
-		static string _inPort;
+		static QString _inPort;
 		static RtMidiIn *_midiIn;
 		static multimap<int, std::vector<unsigned char> > *_messages;
 		static int _currentTime;
 		static bool _recording;
-		static Qlist<int> toUnique(Qlist<int> in);
+		static QList<int> toUnique(QList<int> in);
 		static bool _thru;
 
 };

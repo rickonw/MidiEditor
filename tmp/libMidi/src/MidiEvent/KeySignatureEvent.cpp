@@ -32,12 +32,12 @@ int KeySignatureEvent::line(){
 	return KEY_SIGNATURE_EVENT_LINE;
 }
 
-string KeySignatureEvent::toMessage(){
+QString KeySignatureEvent::toMessage(){
 	return "";
 }
 
-ByteArray KeySignatureEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray KeySignatureEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(char(0xFF));
 	array.append(0x59 | channel());
 	array.append(0x02);
@@ -64,7 +64,7 @@ void KeySignatureEvent::reloadState(ProtocolEntry *entry){
 	_minor = other->_minor;
 }
 
-string KeySignatureEvent::typeString(){
+QString KeySignatureEvent::typeString(){
 	return "Key Signature Event";
 }
 
@@ -88,9 +88,9 @@ void KeySignatureEvent::setMinor(bool minor){
 	protocol(toCopy, this);
 }
 
-string KeySignatureEvent::toString(int tonality, bool minor){
+QString KeySignatureEvent::toString(int tonality, bool minor){
 
-	string text = "";
+	QString text = "";
 
 	if(!minor){
 		switch(tonality){

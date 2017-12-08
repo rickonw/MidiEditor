@@ -79,31 +79,31 @@ void NoteOnEvent::reloadState(ProtocolEntry *entry){
 }
 
 
-string NoteOnEvent::toMessage(){
+QString NoteOnEvent::toMessage(){
 	return "noteon "+to_string(channel())+" "+
 			to_string(note())+" "+to_string(velocity());
 }
 
-string NoteOnEvent::offEventMessage(){
+QString NoteOnEvent::offEventMessage(){
 	return "noteoff "+to_string(channel())+" "+to_string(note());
 }
 
-ByteArray NoteOnEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray NoteOnEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0x90 | channel());
 	array.append(note());
 	array.append(velocity());
 	return array;
 }
 
-ByteArray NoteOnEvent::saveOffEvent(){
-	ByteArray array = ByteArray();
+QByteArray NoteOnEvent::saveOffEvent(){
+	QByteArray array = QByteArray();
 	array.append(0x80 | channel());
 	array.append(note());
 	array.append((char)0x0);
 	return array;
 }
 
-string NoteOnEvent::typeString(){
+QString NoteOnEvent::typeString(){
 	return "Note On Event";
 }

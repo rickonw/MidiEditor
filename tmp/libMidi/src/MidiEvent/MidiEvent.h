@@ -31,9 +31,12 @@ class MidiEvent : public ProtocolEntry {
 		MidiEvent(int channel, MidiTrack *track);
 		MidiEvent(MidiEvent &other);
 
-		static MidiEvent *loadMidiEvent(ifstream *content,
+		static MidiEvent *loadMidiEvent(QDataStream *content,
 				bool *ok, bool *endEvent, MidiTrack *track, quint8 startByte = 0,
 				quint8 secondByte = 0);
+
+		//static EventWidget *eventWidget();
+		//static void setEventWidget(EventWidget *widget);
 
 		enum {
 			TEMPO_CHANGE_EVENT_LINE = 128,
@@ -59,18 +62,18 @@ class MidiEvent : public ProtocolEntry {
 		bool shownInEventWidget();
 
 		virtual int line();
-		virtual string toMessage();
-		virtual ByteArray save();
+		virtual QString toMessage();
+		virtual QByteArray save();
 		//virtual void draw(QPainter *p, Color c);
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
-		virtual string typeString();
+		virtual QString typeString();
 
 		virtual bool isOnEvent();
 
-		static map<int, string> knownMetaTypes();
+		static map<int, QString> knownMetaTypes();
 
 		void setTemporaryRecordID(int id);
 		int temporaryRecordID();
@@ -81,6 +84,7 @@ class MidiEvent : public ProtocolEntry {
 		int numChannel, timePos;
 		MidiFile *midiFile;
 		static quint8 _startByte;
+		//static EventWidget *_eventWidget;
 		MidiTrack *_track;
 		int _tempID;
 };

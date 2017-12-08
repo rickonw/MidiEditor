@@ -33,9 +33,9 @@ class TempoChangeEvent : public MidiEvent {
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 		int line();
-		ByteArray save();
+		QByteArray save();
 
-		string typeString();
+		QString typeString();
 
 		void setBeats(int beats);
 

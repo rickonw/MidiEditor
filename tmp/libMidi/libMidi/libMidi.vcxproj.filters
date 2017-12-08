@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\pub\dataType.cpp">
-      <Filter>源文件\pub</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\MidiEvent\ChannelPressureEvent.cpp">
       <Filter>源文件\MidiEvent</Filter>
     </ClCompile>
@@ -120,11 +117,11 @@
     <ClCompile Include="..\src\protocol\ProtocolStep.cpp">
       <Filter>源文件\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\pub\DataType.cpp">
+      <Filter>源文件\pub</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\pub\dataType.h">
-      <Filter>头文件\pub</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\MidiEvent\ChannelPressureEvent.h">
       <Filter>头文件\MidiEvent</Filter>
     </ClInclude>
@@ -202,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="..\src\protocol\ProtocolStep.h">
       <Filter>头文件\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pub\DataType.h">
+      <Filter>头文件\pub</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

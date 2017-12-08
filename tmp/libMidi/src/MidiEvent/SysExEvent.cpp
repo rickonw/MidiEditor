@@ -18,7 +18,7 @@
 
 #include "SysExEvent.h"
 
-SysExEvent::SysExEvent(int channel, ByteArray data, MidiTrack *track) : MidiEvent(channel, track){
+SysExEvent::SysExEvent(int channel, QByteArray data, MidiTrack *track) : MidiEvent(channel, track){
 	_data = data;
 }
 
@@ -26,7 +26,7 @@ SysExEvent::SysExEvent(SysExEvent &other) : MidiEvent(other) {
 	_data = other._data;
 }
 
-ByteArray SysExEvent::data(){
+QByteArray SysExEvent::data(){
 	return _data;
 }
 
@@ -34,15 +34,15 @@ int SysExEvent::line(){
 	return SYSEX_LINE;
 }
 
-ByteArray SysExEvent::save(){
-	ByteArray s;
+QByteArray SysExEvent::save(){
+	QByteArray s;
 	s.append(char(0xF0));
 	//s.append(_data);
 	s.append(char(0xF7));
 	return s;
 }
 
-string SysExEvent::typeString(){
+QString SysExEvent::typeString(){
 	return "System Exclusive Message (SysEx)";
 }
 
@@ -59,7 +59,7 @@ void SysExEvent::reloadState(ProtocolEntry *entry){
 	_data = other->_data;
 }
 
-void SysExEvent::setData(ByteArray d){
+void SysExEvent::setData(QByteArray d){
 	ProtocolEntry *toCopy = copy();
 	_data = d;
 	protocol(toCopy, this);

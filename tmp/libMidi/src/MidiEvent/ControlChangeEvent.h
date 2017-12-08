@@ -33,13 +33,13 @@ class ControlChangeEvent : public MidiEvent {
 		void setValue(int v);
 		void setControl(int c);
 
-		string toMessage();
-		ByteArray save();
+		QString toMessage();
+		QByteArray save();
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
-		string typeString();
+		QString typeString();
 
 		virtual bool isOnEvent();
 	private:

@@ -241,8 +241,8 @@ int MidiChannel::progAtTick(int tick){
 	}
 	if(_events->size() ) {
 		while(it != _events->begin()){
-			ProgChangeEvent *ev = dynamic_cast<ProgChangeEvent*>(it.value());
-			if(ev && it.key()<=tick){
+			ProgChangeEvent *ev = dynamic_cast<ProgChangeEvent*>((*it).second);
+			if(ev && (*it).first<=tick){
 				return ev->program();
 			}
 			it--;

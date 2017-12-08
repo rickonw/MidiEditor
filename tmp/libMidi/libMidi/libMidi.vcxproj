@@ -45,7 +45,7 @@
     <ClCompile Include="..\src\protocol\ProtocolEntry.cpp" />
     <ClCompile Include="..\src\protocol\ProtocolItem.cpp" />
     <ClCompile Include="..\src\protocol\ProtocolStep.cpp" />
-    <ClCompile Include="..\src\pub\dataType.cpp" />
+    <ClCompile Include="..\src\pub\DataType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\MidiEvent\ChannelPressureEvent.h" />
@@ -74,7 +74,7 @@
     <ClInclude Include="..\src\protocol\ProtocolEntry.h" />
     <ClInclude Include="..\src\protocol\ProtocolItem.h" />
     <ClInclude Include="..\src\protocol\ProtocolStep.h" />
-    <ClInclude Include="..\src\pub\dataType.h" />
+    <ClInclude Include="..\src\pub\DataType.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E7371C18-CB32-4376-87EA-FEAD9B4808E6}</ProjectGuid>

@@ -20,7 +20,7 @@
 #define TEXTEVENT_H_
 
 #include "MidiEvent.h"
-#include <ByteArray>
+#include <QByteArray>
 
 class TextEvent : public MidiEvent {
 
@@ -29,15 +29,15 @@ class TextEvent : public MidiEvent {
 		TextEvent(int channel, MidiTrack *track);
 		TextEvent(TextEvent &other);
 
-		string text();
-		void setText(string text);
+		QString text();
+		void setText(QString text);
 
 		int type();
 		void setType(int type);
 
 		int line();
 
-		ByteArray save();
+		QByteArray save();
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
@@ -52,12 +52,12 @@ class TextEvent : public MidiEvent {
 			COMMENT
 		};
 
-		string typeString();
-		static string textTypeString(int type);
+		QString typeString();
+		static QString textTypeString(int type);
 
 	private:
 		int _type;
-		string _text;
+		QString _text;
 };
 
 #endif

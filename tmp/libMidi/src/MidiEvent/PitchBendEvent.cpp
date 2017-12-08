@@ -36,13 +36,13 @@ int PitchBendEvent::line(){
 	return PITCH_BEND_LINE;
 }
 
-string PitchBendEvent::toMessage(){
+QString PitchBendEvent::toMessage(){
 	return "cc "+to_string(channel())+" "+
 			to_string(_value);
 }
 
-ByteArray PitchBendEvent::save(){
-	ByteArray array = ByteArray();
+QByteArray PitchBendEvent::save(){
+	QByteArray array = QByteArray();
 	array.append(0xE0 | channel());
 	array.append(_value & 0x7F);
 	array.append((_value >> 7) & 0x7F);
@@ -62,7 +62,7 @@ void PitchBendEvent::reloadState(ProtocolEntry *entry){
 	_value = other->_value;
 }
 
-string PitchBendEvent::typeString(){
+QString PitchBendEvent::typeString(){
 	return "Pitch Bend Event";
 }
 

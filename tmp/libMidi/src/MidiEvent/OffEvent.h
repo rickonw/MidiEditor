@@ -20,8 +20,7 @@
 #define OFFEVENT_H_
 
 #include "MidiEvent.h"
-#include <multimap>
-#include <Qlist>
+
 
 class OnEvent;
 
@@ -37,11 +36,11 @@ class OffEvent : public MidiEvent{
 		static void enterOnEvent(OnEvent *event);
 		static void clearOnEvents();
 		static void removeOnEvent(OnEvent *event);
-		static Qlist<OnEvent*> corruptedOnEvents();
+		static QList<OnEvent*> corruptedOnEvents();
 		//void draw(QPainter *p, Color c);
 		int line();
-		ByteArray save();
-		string toMessage();
+		QByteArray save();
+		QString toMessage();
 
 		ProtocolEntry *copy();
 		void reloadState(ProtocolEntry *entry);
@@ -56,9 +55,14 @@ class OffEvent : public MidiEvent{
 		// it searches his onEvent in onEvents and removes it from onEvents.
 		static multimap<int, OnEvent*> *onEvents;
 
+		static QList<OnEvent*> *onEventsList;
+
 		// needs to save the line, because offEvents are bound to their onEvents.
 		// Setting the line is necessary to find the onEvent in the QMap
 		int _line;
+	private:
+	    static void updtEventsList();
+	    static void updtEventsList(int key);
 };
 
 #endif

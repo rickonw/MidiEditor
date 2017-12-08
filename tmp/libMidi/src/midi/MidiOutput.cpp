@@ -21,14 +21,14 @@
 #include "../MidiEvent/MidiEvent.h"
 #include "rtmidi/RtMidi.h"
 
-#include "SenderThread.h"
+//#include "SenderThread.h"
 #include "../MidiEvent/NoteOnEvent.h"
 #include "../MidiEvent/OffEvent.h"
 
 RtMidiOut *MidiOutput::_midiOut = 0;
-string MidiOutput::_outPort = "";
+QString MidiOutput::_outPort = "";
 //SenderThread *MidiOutput::_sender = new SenderThread();
-map<int, Qlist<int> > MidiOutput::playedNotes = map<int, Qlist<int> >();
+map<int, QList<int> > MidiOutput::playedNotes = map<int, QList<int> >();
 bool MidiOutput::isAlternativePlayer = false;
 
 int MidiOutput::_stdChannel = 0;
@@ -37,7 +37,7 @@ void MidiOutput::init(){
 
 	// RtMidiOut constructor
 	try {
-		_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, string("MidiEditor output").toStdString());
+		_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, QString("MidiEditor output"));
 	}
 	catch ( RtMidiError &error ) {
 		error.printMessage();
@@ -45,7 +45,7 @@ void MidiOutput::init(){
 	//_sender->start(QThread::TimeCriticalPriority);
 }
 
-void MidiOutput::sendCommand(ByteArray array){
+void MidiOutput::sendCommand(QByteArray array){
 
 	sendEnqueuedCommand(array);
 }
@@ -74,9 +74,9 @@ void MidiOutput::sendCommand(MidiEvent *e){
 	}
 }
 
-string MidiOutput::outputPorts(){
+QString MidiOutput::outputPorts(){
 
-	string ports;
+	QString ports;
 
 	// Check outputs.
 	unsigned int nPorts = _midiOut->getPortCount();
@@ -84,7 +84,7 @@ string MidiOutput::outputPorts(){
 	for(unsigned int i = 0; i < nPorts; i++){
 
 		try {
-			ports.append(string::fromStdString(_midiOut->getPortName(i)));
+			ports.append(_midiOut->getPortName(i));
 		}
 		catch (RtMidiError &) {}
 	}
@@ -92,7 +92,7 @@ string MidiOutput::outputPorts(){
 	return ports;
 }
 
-bool MidiOutput::setOutputPort(string name){
+bool MidiOutput::setOutputPort(QString name){
 
 	// try to find the port
 	unsigned int nPorts = _midiOut->getPortCount();
@@ -103,7 +103,7 @@ bool MidiOutput::setOutputPort(string name){
 
 			// if the current port has the given name, select it and close
 			// current port
-			if(_midiOut->getPortName(i) == name.toStdString()){
+			if(_midiOut->getPortName(i) == name){
 
 				_midiOut->closePort();
 				_midiOut->openPort(i);
@@ -120,11 +120,11 @@ bool MidiOutput::setOutputPort(string name){
 	return false;
 }
 
-string MidiOutput::outputPort(){
+QString MidiOutput::outputPort(){
 	return _outPort;
 }
 
-void MidiOutput::sendEnqueuedCommand(ByteArray array) {
+void MidiOutput::sendEnqueuedCommand(QByteArray array) {
 
 	if(_outPort != ""){
 
@@ -151,7 +151,7 @@ int MidiOutput::standardChannel(){
 }
 
  void MidiOutput::sendProgram(int channel, int prog){
-	 ByteArray array = ByteArray();
+	 QByteArray array = QByteArray();
 	 array.append(0xC0 | channel);
 	 array.append(prog);
 	 sendCommand(array);

@@ -50,7 +50,7 @@ MidiFile::MidiFile(){
 	timePerQuarter = MidiFile::defaultTimePerQuarter;
 	_midiFormat = 1;
 
-	_tracks = new Qlist<MidiTrack*>();
+	_tracks = new QList<MidiTrack*>();
 	MidiTrack *tempoTrack = new MidiTrack(this);
 	tempoTrack->setName("Tempo Track");
 	tempoTrack->setNumber(0);
@@ -80,10 +80,10 @@ MidiFile::MidiFile(){
 	calcMaxTime();
 }
 
-MidiFile::MidiFile(string path, bool *ok, string *log) {
+MidiFile::MidiFile(QString path, bool *ok, QString *log) {
 
 	if(!log){
-		log = new string();
+		log = new QString();
 	}
 
 	_pauseTick = -1;
@@ -93,8 +93,8 @@ MidiFile::MidiFile(string path, bool *ok, string *log) {
 	prot = new Protocol(this);
 	prot->addEmptyAction("File opened");
 	_path = path;
-	_tracks = new Qlist<MidiTrack*>();
-	ifstream f(path);
+	_tracks = new QList<MidiTrack*>();
+	QDataStream f(path);
 
 	if(!f->is_open()){
 		*ok = false;
@@ -107,7 +107,7 @@ MidiFile::MidiFile(string path, bool *ok, string *log) {
 		channels[i] = new MidiChannel(this, i);
 	}
 
-	ifstream *stream = new ifstream(f);
+	QDataStream *stream = new QDataStream(f);
 	//stream->setByteOrder(ifstream::BigEndian);
 	if(!readMidiFile(stream, log)){
 		*ok = false;
@@ -126,14 +126,14 @@ MidiFile::MidiFile(int ticks, Protocol *p){
 	prot = p;
 }
 
-bool MidiFile::readMidiFile(ifstream *content, string *log){
+bool MidiFile::readMidiFile(QDataStream *content, QString *log){
 
 
 	OffEvent::clearOnEvents();
 
 	quint8 tempByte;
 
-	string badHeader = "Error: Bad format in file header (Expected MThd).";
+	QString badHeader = "Error: Bad format in file header (Expected MThd).";
 	(*content)>>tempByte;
 	if(tempByte != 'M'){ log->append(badHeader); return false; }
 	(*content)>>tempByte;
@@ -177,10 +177,10 @@ bool MidiFile::readMidiFile(ifstream *content, string *log){
 
 	// find corrupted OnEvents (without OffEvent)
 
-    Qlist<OnEvent *>::iterator iter;
+    QList<OnEvent *>::iterator iter;
 	OnEvent *event;
-	Qlist<OnEvent*> _events = OffEvent::corruptedOnEvents();
-	for (Qlist<OnEvent*>::iterator iter = _events.begin(); iter != _events.end(); iter++) {
+	QList<OnEvent*> _events = OffEvent::corruptedOnEvents();
+	for (QList<OnEvent*>::iterator iter = _events.begin(); iter != _events.end(); iter++) {
 		OnEvent *onevent = dynamic_cast<OnEvent*>(*iter);
 		log->append("Warning: found OnEvent without OffEvent (line "+to_string(onevent->line()) +") - removing...");
 		channel(onevent->channel())->removeEvent(onevent);
@@ -191,11 +191,11 @@ bool MidiFile::readMidiFile(ifstream *content, string *log){
 	return true;
 }
 
-bool MidiFile::readTrack(ifstream *content, int num, string *log){
+bool MidiFile::readTrack(QDataStream *content, int num, QString *log){
 
 	quint8 tempByte;
 
-	string badHeader = "Error: Bad format in track header (Track "+to_string(num)+", Expected MTrk).";
+	QString badHeader = "Error: Bad format in track header (Track "+to_string(num)+", Expected MTrk).";
 	(*content)>>tempByte;
 	if(tempByte != 'M'){ log->append(badHeader); return false; }
 	(*content)>>tempByte;
@@ -269,7 +269,7 @@ bool MidiFile::readTrack(ifstream *content, int num, string *log){
 
 	// end of track
 	(*content)>>tempByte;
-	string errorText = "Error: track " + to_string(num) +"not ended as expected. ";
+	QString errorText = "Error: track " + to_string(num) +"not ended as expected. ";
 	if(tempByte != 0x00){log->append(errorText); return false; }
 
 	// check whether TimeSignature at tick 0 is given. If not, create one.
@@ -303,12 +303,12 @@ bool MidiFile::readTrack(ifstream *content, int num, string *log){
 	return true;
 }
 
-int MidiFile::deltaTime(ifstream *content){
+int MidiFile::deltaTime(QDataStream *content){
 	return variableLengthvalue(content);
 }
 
 
-int MidiFile::variableLengthvalue(ifstream *content){
+int MidiFile::variableLengthvalue(QDataStream *content){
 	quint32 v = 0;
 	quint8 byte = 0;
 	do {
@@ -329,7 +329,7 @@ map<int, MidiEvent*> *MidiFile::tempoEvents(){
 
 void MidiFile::calcMaxTime(){
 	double time = 0;
-	Qlist<MidiEvent*> events = channels[17]->eventMap()->values();
+	QList<MidiEvent*> events = channels[17]->eventMap()->values();
 	for(int i = 0; i<events.max_size(); i++){
 		TempoChangeEvent *ev = dynamic_cast<TempoChangeEvent*>(events.at(i));
 		if(!ev){
@@ -359,7 +359,7 @@ int MidiFile::endTick(){
 int MidiFile::tick(int ms){
 	double time = 0;
 
-	Qlist<MidiEvent*> events = channels[17]->eventMap()->values();
+	QList<MidiEvent*> events = channels[17]->eventMap()->values();
 	
 	TempoChangeEvent *event = 0;
 
@@ -396,12 +396,12 @@ int MidiFile::tick(int ms){
 	return startTick;
 }
 
-int MidiFile::msOfTick(int tick, Qlist<MidiEvent*> *events, int
+int MidiFile::msOfTick(int tick, QList<MidiEvent*> *events, int
 		msOfFirstEventInList)
 {
 
 	if(!events){
-		events = new Qlist<MidiEvent*>(channels[17]->eventMap()->values());
+		events = new QList<MidiEvent*>(channels[17]->eventMap()->values());
 		if(!events){
 			return 0;
 		}
@@ -440,7 +440,7 @@ int MidiFile::msOfTick(int tick, Qlist<MidiEvent*> *events, int
 	return (int)timeMs;
 }
 
-int MidiFile::tick(int startms, int endms, Qlist<MidiEvent*> **eventList,
+int MidiFile::tick(int startms, int endms, QList<MidiEvent*> **eventList,
 		int *endTick, int *msOfFirstEvent
 ){
 	// holds the time of the current event
@@ -450,10 +450,10 @@ int MidiFile::tick(int startms, int endms, Qlist<MidiEvent*> **eventList,
 	if((*eventList)){
 		delete (*eventList);
 	}
-	*eventList = new Qlist<MidiEvent*>;
+	*eventList = new QList<MidiEvent*>;
 
 	// TempoChangeEvents
-	Qlist<MidiEvent*> events = channels[17]->eventMap()->values();
+	QList<MidiEvent*> events = channels[17]->eventMap()->values();
 
 	// event is the previous Event in events, ev the current
 	TempoChangeEvent *event = 0;
@@ -532,14 +532,14 @@ int MidiFile::numTracks(){
 }
 
 int MidiFile::measure(int startTick, int endTick,
-		Qlist<TimeSignatureEvent*> **eventList, int *ticksInmeasure)
+		QList<TimeSignatureEvent*> **eventList, int *ticksInmeasure)
 {
 
 	if((*eventList)){
 		delete (*eventList);
 	}
-	*eventList = new Qlist<TimeSignatureEvent*>;
-	Qlist<MidiEvent*> events = channels[18]->eventMap()->values();
+	*eventList = new QList<TimeSignatureEvent*>;
+	QList<MidiEvent*> events = channels[18]->eventMap()->values();
 	TimeSignatureEvent *event = 0;
 	int i = 0;
 	int measure = 1;
@@ -605,7 +605,7 @@ MidiChannel *MidiFile::channel(int i){
 	return channels[i];
 }
 
-string MidiFile::instrumentName(int prog){
+QString MidiFile::instrumentName(int prog){
 	switch(prog+1){
 		case 1 : {return "Acoustic Grand Piano";}
 		case 2 : {return "Bright Acoustic Piano";}
@@ -739,7 +739,7 @@ string MidiFile::instrumentName(int prog){
 	return "out of range";
 }
 
-string MidiFile::controlChangeName(int control){
+QString MidiFile::controlChangeName(int control){
 
 	switch(control){
 		case 0: { return "Bank Select (MSB)"; }
@@ -829,8 +829,8 @@ string MidiFile::controlChangeName(int control){
 	return "undefined";
 }
 
-Qlist<MidiEvent*> *MidiFile::eventsBetween(int start, int end){
-	Qlist<MidiEvent*> *eventList = new Qlist<MidiEvent*>;
+QList<MidiEvent*> *MidiFile::eventsBetween(int start, int end){
+	QList<MidiEvent*> *eventList = new QList<MidiEvent*>;
 	for(int i = 0; i<19; i++){
 		multimap<int, MidiEvent*> *events = channels[i]->eventMap();
 		multimap<int, MidiEvent*>::iterator current=events->lowerBound(start);
@@ -865,7 +865,7 @@ bool MidiFile::channelMuted(int ch){
 void MidiFile::preparePlayerData(int tickFrom){
 
 	playerMap->clear();
-	Qlist<MidiEvent*> *prgList;
+	QList<MidiEvent*> *prgList;
 
 	for(int i = 0; i<19; i++){
 
@@ -875,7 +875,7 @@ void MidiFile::preparePlayerData(int tickFrom){
 
 		// prgList saves all ProgramChangeEvents before cursorPosition. The last
 		// will be sent when playing
-		prgList = new Qlist<MidiEvent*>;
+		prgList = new QList<MidiEvent*>;
 
 		multimap<int, MidiEvent*> *channelEvents = channels[i]->eventMap();
 		multimap<int, MidiEvent*>::iterator it=channelEvents->begin();
@@ -937,7 +937,7 @@ void MidiFile::setPauseTick(int tick){
 	_pauseTick = tick;
 }
 
-bool MidiFile::save(string path){
+bool MidiFile::save(QString path){
 
 	QFile *f = new QFile(path);
 
@@ -945,8 +945,8 @@ bool MidiFile::save(string path){
 		return false;
 	}
 
-	ifstream *stream = new ifstream(f);
-	stream->setByteOrder(ifstream::BigEndian);
+	QDataStream *stream = new QDataStream(f);
+	stream->setByteOrder(QDataStream::BigEndian);
 
 	// All Events are stored in allEvents. This is because the data has to be
 	// saved by tracks and not by channels
@@ -959,7 +959,7 @@ bool MidiFile::save(string path){
 		}
 	}
 
-	ByteArray data = ByteArray();
+	QByteArray data = QByteArray();
 	data.append('M');
 	data.append('T');
 	data.append('h');
@@ -1008,12 +1008,12 @@ bool MidiFile::save(string path){
 
 				// write the deltaTime before the event
 				int time = tick-currentTick;
-				ByteArray deltaTime = writeDeltaTime(time);
+				QByteArray deltaTime = writeDeltaTime(time);
 				numBytes += deltaTime.count();
 				data.append(deltaTime);
 
 				// write the events data
-				ByteArray eventData = event->save();
+				QByteArray eventData = event->save();
 				numBytes += eventData.count();
 				data.append(eventData);
 
@@ -1026,7 +1026,7 @@ bool MidiFile::save(string path){
 
 		// write the endEvent
 		int time = endTick()-currentTick;
-		ByteArray deltaTime = writeDeltaTime(time);
+		QByteArray deltaTime = writeDeltaTime(time);
 		numBytes += deltaTime.count();
 		data.append(deltaTime);
 		data.append(char(0xFF));
@@ -1053,13 +1053,13 @@ bool MidiFile::save(string path){
 	return true;
 }
 
-ByteArray MidiFile::writeDeltaTime(int time){
+QByteArray MidiFile::writeDeltaTime(int time){
 	return writeVariableLengthValue(time);
 }
 
-ByteArray MidiFile::writeVariableLengthValue(int value){
+QByteArray MidiFile::writeVariableLengthValue(int value){
 
-	ByteArray array = ByteArray();
+	QByteArray array = QByteArray();
 
 	bool isFirst = true;
 	for(int i = 3; i>=0; i--){
@@ -1078,11 +1078,11 @@ ByteArray MidiFile::writeVariableLengthValue(int value){
 	return array;
 }
 
-string MidiFile::path(){
+QString MidiFile::path(){
 	return _path;
 }
 
-void MidiFile::setPath(string path){
+void MidiFile::setPath(QString path){
 	_path = path;
 }
 
@@ -1101,7 +1101,7 @@ void MidiFile::setMaxLengthMs(int ms){
 	ProtocolEntry::protocol(toCopy, this);
 	if(midiTicks<oldTicks){
 		// remove events after maxTick
-		Qlist<MidiEvent*> *ev = eventsBetween(midiTicks, oldTicks);
+		QList<MidiEvent*> *ev = eventsBetween(midiTicks, oldTicks);
 		foreach(MidiEvent *event, *ev){
 			channel(event->channel())->removeEvent(event);
 		}
@@ -1111,7 +1111,7 @@ void MidiFile::setMaxLengthMs(int ms){
 
 ProtocolEntry *MidiFile::copy(){
 	MidiFile *file = new MidiFile(midiTicks, protocol());
-	file->_tracks = new Qlist<MidiTrack*>(*(_tracks));
+	file->_tracks = new QList<MidiTrack*>(*(_tracks));
 	file->pasteTracks = pasteTracks;
 	return file;
 }
@@ -1120,7 +1120,7 @@ void MidiFile::reloadState(ProtocolEntry *entry){
 	MidiFile *file =dynamic_cast<MidiFile*>(entry);
 	if(file){
 		midiTicks=file->midiTicks;
-		_tracks = new Qlist<MidiTrack*>(*(file->_tracks));
+		_tracks = new QList<MidiTrack*>(*(file->_tracks));
 		pasteTracks = file->pasteTracks;
 	}
 	calcMaxTime();
@@ -1130,7 +1130,7 @@ MidiFile *MidiFile::file(){
 	return this;
 }
 
-Qlist<MidiTrack*> *MidiFile::tracks(){
+QList<MidiTrack*> *MidiFile::tracks(){
 	return _tracks;
 }
 
@@ -1184,7 +1184,7 @@ bool MidiFile::removeTrack(MidiTrack *track){
 
 	// remove links from pasted tracks
 	foreach(MidiFile *fileFrom, pasteTracks.keys()){
-		Qlist<MidiTrack*> sourcesToRemove;
+		QList<MidiTrack*> sourcesToRemove;
 		foreach(MidiTrack *source, pasteTracks.value(fileFrom).keys()){
 			if(pasteTracks.value(fileFrom).value(source) == track){
 				sourcesToRemove.push_back(source);
@@ -1266,8 +1266,8 @@ void MidiFile::meterAt(int tick, int *num, int *denum){
 	}
 }
 
-void MidiFile::printLog(string *log){
-	foreach(string str, *log){
+void MidiFile::printLog(QString *log){
+	foreach(QString str, *log){
 		//qWarning(str.toUtf8().constData());
 	}
 }
@@ -1280,13 +1280,13 @@ void MidiFile::registerCopiedTrack(MidiTrack *source, MidiTrack *destination, Mi
 
 	ProtocolEntry *toCopy = copy();
 
-	map<MidiTrack*, MidiTrack*> Qlist;
+	map<MidiTrack*, MidiTrack*> QList;
 	if(pasteTracks.contains(fileFrom)){
-		Qlist = pasteTracks.value(fileFrom);
+		QList = pasteTracks.value(fileFrom);
 	}
 
-	Qlist.insert(make_pair(source, destination));
-	pasteTracks.insert(make_pair(fileFrom, Qlist));
+	QList.insert(make_pair(source, destination));
+	pasteTracks.insert(make_pair(fileFrom, QList));
 
 	ProtocolEntry::protocol(toCopy, this);
 }
@@ -1304,13 +1304,13 @@ MidiTrack *MidiFile::getPasteTrack(MidiTrack *source, MidiFile *fileFrom){
 	return pasteTracks.value(fileFrom).value(source);
 }
 
-Qlist<int> MidiFile::quantization(int fractionSize){
+QList<int> MidiFile::quantization(int fractionSize){
 
 	int fractionTicks = (4*ticksPerQuarter())/qPow(2, fractionSize);
 
-	Qlist<int> Qlist;
+	QList<int> QList;
 
-	Qlist<MidiEvent*> timeSigs = timeSignatureEvents()->values();
+	QList<MidiEvent*> timeSigs = timeSignatureEvents()->values();
 	TimeSignatureEvent *last = 0;
 	foreach(MidiEvent* event, timeSigs){
 
@@ -1320,7 +1320,7 @@ Qlist<int> MidiFile::quantization(int fractionSize){
 
 			int current = last->midiTime();
 			while(current < t->midiTime()){
-				Qlist.push_back(current);
+				QList.push_back(current);
 				current+=fractionTicks;
 			}
 		}
@@ -1331,9 +1331,9 @@ Qlist<int> MidiFile::quantization(int fractionSize){
 	if(last){
 		int current = last->midiTime();
 		while(current <= midiTicks){
-			Qlist.push_back(current);
+			QList.push_back(current);
 			current+=fractionTicks;
 		}
 	}
-	return Qlist;
+	return QList;
 }

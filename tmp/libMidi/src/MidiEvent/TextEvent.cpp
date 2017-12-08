@@ -31,11 +31,11 @@ TextEvent::TextEvent(TextEvent &other) : MidiEvent(other) {
 	_text = other._text;
 }
 
-string TextEvent::text(){
+QString TextEvent::text(){
 	return _text;
 }
 
-void TextEvent::setText(string text){
+void TextEvent::setText(QString text){
 	ProtocolEntry *toCopy = copy();
 	_text = text;
 	protocol(toCopy, this);
@@ -55,11 +55,11 @@ int TextEvent::line(){
 	return TEXT_EVENT_LINE;
 }
 
-ByteArray TextEvent::save(){
+QByteArray TextEvent::save(){
 	mbstate_t mbs;
 	mbrlen(NULL, 0, &mbs);
 
-	ByteArray array = ByteArray();
+	QByteArray array = QByteArray();
 
 	array.append(char(0xFF));
 	array.append(_type);
@@ -77,7 +77,7 @@ ByteArray TextEvent::save(){
 	return array;
 }
 
-string TextEvent::typeString(){
+QString TextEvent::typeString(){
 	return "Text Event";
 }
 
@@ -95,7 +95,7 @@ void TextEvent::reloadState(ProtocolEntry *entry){
 	_type = other->_type;
 }
 
-string TextEvent::textTypeString(int type){
+QString TextEvent::textTypeString(int type){
 	switch(type){
 		case TEXT: return "General text";
 		case COPYRIGHT: return "Copyright";
@@ -105,5 +105,5 @@ string TextEvent::textTypeString(int type){
 		case MARKER: return "Marker";
 		case COMMENT: return "Comment";
 	}
-	return string();
+	return QString();
 }

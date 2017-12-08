@@ -37,12 +37,12 @@ class TimeSignatureEvent : public MidiEvent {
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 		int line();
-		ByteArray save();
+		QByteArray save();
 
 		void setDenominator(int d);
 		void setNumerator(int n);
 
-		string typeString();
+		QString typeString();
 
 	private:
 		int numerator, denominator, midiClocksPerMetronome, num32In4th;

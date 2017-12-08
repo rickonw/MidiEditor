@@ -21,7 +21,7 @@
 
 #include "../protocol/ProtocolEntry.h"
 
-#include <string>
+#include <QString>
 
 class TextEvent;
 class MidiFile;
@@ -35,8 +35,8 @@ class MidiTrack : public ProtocolEntry{
 		MidiTrack(MidiTrack &other);
 		virtual ~MidiTrack();
 
-		string name();
-		void setName(string name);
+		QString name();
+		void setName(QString name);
 
 		int number();
 		void setNumber(int number);

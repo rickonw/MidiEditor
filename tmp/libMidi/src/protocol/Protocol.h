@@ -81,7 +81,7 @@ class Protocol {
 		 *
 		 * Clears the redo stack.
 		 */
-		void startNewAction(string description);
+		void startNewAction(QString description);
 
 		/**
 		 * \brief closes the current ProtocolStep.
@@ -128,7 +128,7 @@ class Protocol {
 		 *
 		 * This is useful to generate Actions like "File opened"
 		 */
-		void addEmptyAction(string name);
+		void addEmptyAction(QString name);
 
 	//signals:
 		/**
@@ -148,7 +148,7 @@ class Protocol {
 		/**
 		 * \brief The two Stacks containing undo/redo Steps.
 		 */
-		Qlist<ProtocolStep*> *_undoSteps, *_redoSteps;
+		QList<ProtocolStep*> *_undoSteps, *_redoSteps;
 
 		/**
 		 * \brief the MidiFile this Protocol is working with.

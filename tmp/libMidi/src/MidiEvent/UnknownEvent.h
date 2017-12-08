@@ -20,25 +20,25 @@
 #define UNKNOWNEVENT_H_
 
 #include "MidiEvent.h"
-#include <ByteArray>
+
 
 class UnknownEvent : public MidiEvent{
 
 	public:
-		UnknownEvent(int channel, int type, ByteArray data, MidiTrack *track);
+		UnknownEvent(int channel, int type, QByteArray data, MidiTrack *track);
 		UnknownEvent(UnknownEvent &other);
-		ByteArray data();
+		QByteArray data();
 		int line();
-		ByteArray save();
+		QByteArray save();
 		int type();
 		void setType(int type);
-		void setData(ByteArray d);
+		void setData(QByteArray d);
 
 		virtual ProtocolEntry *copy();
 		virtual void reloadState(ProtocolEntry *entry);
 
 	private:
-		ByteArray _data;
+		QByteArray _data;
 		int _type;
 
 };
